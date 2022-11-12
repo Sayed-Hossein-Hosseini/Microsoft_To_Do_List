@@ -3,8 +3,168 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException{
+        Print("To Do List");
+        UserInterface();
+    }
 
+    public static void UserInterface() throws ParseException {
+
+        Scanner sc = new Scanner(System.in);
+
+        Print("---------------");
+        Print("1.Veiw lists   2.Add a new list   3.Exit");
+        Print("Please enter your choice:");
+
+        int choiceNumber = sc.nextInt();
+        switch (choiceNumber) {
+            //veiw Lists
+            case 1: {
+                if (nameOfLists.isEmpty()) {
+                    Print("You don't have any lists yet!");
+                    UserInterface();
+                } else {
+                    for (int i = 0; i < nameOfLists.size(); i++) {
+                        Print(i + ". " + nameOfLists.get(i));
+                    }
+                    Print("Please enter the list number you want:");
+                    int desiredIndex = sc.nextInt();
+
+                    Print(nameOfLists.get(desiredIndex) + ": ");
+
+                    Print("1.Veiw the tasks of list");
+                    Print("2.Search in tasks");
+                    Print("3.Add a task");
+                    Print("4.Sort");
+                    choiceNumber = sc.nextInt();
+
+                    switch (choiceNumber) {
+                        //veiw the tasks of list
+                        case 1: {
+                            if (GeneralList.get(desiredIndex).isEmpty()) {
+                                Print("You don't have any task in this list!");
+                                Print("Do you want to add a new task?");
+                                Print("1.Yes   2.No");
+                                choiceNumber = sc.nextInt();
+                                if (choiceNumber == 1) {
+                                    addNewTask(GeneralList.get(desiredIndex), sc);
+                                    UserInterface();
+                                } else UserInterface();
+                            } else {
+                                veiwTask(GeneralList.get(desiredIndex), sc);
+                            }
+                        }
+                        break;
+                        //search in task
+                        case 2: {
+                            if (GeneralList.get(desiredIndex).isEmpty()) {
+                                Print("You don't have any task in this list!");
+                                UserInterface();
+                            } else {
+                                Print("Please enter the title of task:");
+                                String title = sc.next();
+                                for (int i = 0; i < GeneralList.get(desiredIndex).size(); i++) {
+                                    if (GeneralList.get(desiredIndex).get(i).getTitle().equals(title)) {
+                                        Print(GeneralList.get(desiredIndex).get(i).toString());
+
+                                        Print("Do you want to delete or edit this task?");
+                                        Print("1.Yes   2.No");
+
+                                        choiceNumber = sc.nextInt();
+
+                                        if (choiceNumber == 1) {
+                                            Print("1.Delete   2.Edit");
+                                            choiceNumber = sc.nextInt();
+
+                                            if (choiceNumber == 1) {
+                                                GeneralList.get(desiredIndex).remove(i);
+                                                Print("The task was successfully deleted!");
+                                            } else {
+                                                editTask(GeneralList.get(desiredIndex).get(i), sc);
+                                            }
+                                        }
+                                        UserInterface();
+                                    } else {
+                                        Print("No task was found with this name!!");
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                        //Add a task
+                        case 3: {
+                            addNewTask(GeneralList.get(desiredIndex), sc);
+                            UserInterface();
+                        }
+                        break;
+                        //sort
+                        case 4: {
+                            if (GeneralList.get(desiredIndex).isEmpty()) {
+                                Print("You don't have any task in this list!");
+                                UserInterface();
+                            } else {
+
+                                Print("Sort by:");
+                                Print("1.Title");
+                                Print("2.Priority");
+                                Print("3.CreatedDate");
+                                Print("4.DueDate");
+
+                                choiceNumber = sc.nextInt();
+                                switch (choiceNumber) {
+                                    case 1: {
+                                        sortTaskByTitle(GeneralList.get(desiredIndex));
+                                        veiwTask(GeneralList.get(desiredIndex), sc);
+                                    }
+                                    break;
+                                    case 2: {
+                                        sortTaskByPriority(GeneralList.get(desiredIndex));
+                                        veiwTask(GeneralList.get(desiredIndex), sc);
+                                    }
+                                    break;
+                                    case 3: {
+                                        sortTaskByCreatedDate(GeneralList.get(desiredIndex));
+                                        veiwTask(GeneralList.get(desiredIndex), sc);
+                                    }
+                                    break;
+                                    case 4: {
+                                        sortTaskByDueDate(GeneralList.get(desiredIndex));
+                                        veiwTask(GeneralList.get(desiredIndex), sc);
+                                    }
+                                    break;
+                                    default:
+                                }
+                            }
+                        }
+                        break;
+                        default: {
+                            Print("Invalid input!");
+                            Print("Please try again:");
+                            UserInterface();
+                        }
+                    }
+
+                }
+            }
+            break;
+            //Add a new list
+            case 2: {
+                Print("Please enter the name of list: ");
+                addNewList(sc.next());
+                UserInterface();
+            }
+            break;
+            //Exit
+            case 3: {
+                Print("Good luck => ");
+            }
+            break;
+            default: {
+                Print("Invalid input!");
+                Print("Please try again:");
+                UserInterface();
+            }
+        }
     }
 
     //========================================
