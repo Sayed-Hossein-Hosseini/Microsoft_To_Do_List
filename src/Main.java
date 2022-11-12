@@ -8,6 +8,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws ParseException{
         Print("To Do List");
+        for (String place : readName()) {
+
+            nameOfLists.add (place) ;
+        }
         UserInterface();
     }
 
@@ -386,6 +390,20 @@ public class Main {
 
             System.out.println(e.getMessage());
         }
+    }
+
+    public static String[] readName() {  // read name task list
+
+        File file = new File("C:\\Users\\shoss\\Documents\\Idea\\ToDoList\\Data");
+
+        String[] name = file.list();
+
+        for (int i = 0; i < name.length; i++) {
+
+            name[i] = name[i].substring(3, name[i].length() - 1);
+        }
+
+        return name;
     }
 
 }
