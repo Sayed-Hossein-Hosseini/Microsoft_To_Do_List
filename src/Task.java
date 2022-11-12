@@ -25,6 +25,8 @@ public class Task<T> {
         this.note = note;
         this.createdDate = new Date();
     }
+
+    public Task() {} ;
 //==============GET & SET===============
 
     public String getTitle() {

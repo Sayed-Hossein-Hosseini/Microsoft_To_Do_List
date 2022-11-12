@@ -1,17 +1,21 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws ParseException{
         Print("To Do List");
-        for (String place : readName()) {
 
-            nameOfLists.add (place) ;
-        }
+        if (readName() != null)
+            for (String place : readName()) {
+
+                nameOfLists.add (place) ;
+            }
+
+        GeneralList = read() ;
+
         UserInterface();
     }
 
@@ -396,6 +400,8 @@ public class Main {
 
         File file = new File("C:\\Users\\shoss\\Documents\\Idea\\ToDoList\\Data");
 
+        if (file.list() == null) {return null;}
+
         String[] name = file.list();
 
         for (int i = 0; i < name.length; i++) {
@@ -404,6 +410,80 @@ public class Main {
         }
 
         return name;
+    }
+
+    public static ArrayList<ArrayList<Task<String>>> read() { // read File
+
+        ArrayList<ArrayList<Task<String>>> list = new ArrayList<>();
+
+        try {
+
+            File file = new File("C:\\Users\\shoss\\Documents\\Idea\\project-1-todo-list-shiftdelete\\Data");
+
+            File[] path1 = file.listFiles();
+
+            String [] time ;
+
+            for (int i = 0; i < path1.length; i++) {
+
+                File[] path2 = path1[i].listFiles();
+
+                for (int j = 0; j < path2.length; j++) {
+
+                    Task <String> task = new Task();
+
+                    FileReader test = new FileReader(path2[j].getPath());
+
+                    SimpleDateFormat data = new SimpleDateFormat("E MMM dd HH:mm:ss zz yyyy");
+
+                    BufferedReader reader = new BufferedReader(test);
+
+                    task.setTitle(reader.readLine()); // read Title
+
+                    String link = reader.readLine(); // read Steps
+
+                    if (link != null) {
+
+                        LinkedList<String> step1 = new LinkedList<>();
+
+                        String[] step2 = link.split(" ");
+
+                        for (int k = 0; k < step2.length; k++) {
+
+                            step1.addLast(step2[k]);
+                        }
+
+                        task.setStep(step1);
+                    }
+
+                    task.setPriority(Integer.parseInt(reader.readLine())); // read Priority
+
+                    time = reader.readLine().split(" ") ;
+
+                    task.setDueDate(data.parse(time[0] + " " + time[1] + " " + time[2] + " " + time[3] + " " + time[4] + " " + time[5])); // read Due Date
+
+                    task.setNote(reader.readLine()); // read Note
+
+                    time = reader.readLine().split(" ") ;
+
+                    task.setCreatedDate(data.parse(time[0] + " " + time[1] + " " + time[2] + " " + time[3] + " " + time[4] + " " + time[5])); // read Created Date
+
+                    reader.close();
+
+                    path2[j].delete(); // delete file
+                }
+
+                path1[i].delete(); // delete directory
+            }
+
+            file.delete(); // delete directory data
+
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+        }
+
+        return list;
     }
 
 }
