@@ -164,4 +164,18 @@ public class LinkedList <T> {
 
         return false ;
     }
+
+    public void traverse() {
+        if (this.isEmpty() == true)
+            System.out.println("There is not any steps!");
+        else {
+            int count = 1;
+            Node<T> q = this.head;
+            while (count <= this.size) {
+                System.out.println("Step" + count + ":" + q.getData());
+                q = q.getNext();
+                count++;
+            }
+        }
+    }
 }
