@@ -51,7 +51,7 @@ public class LinkedList <T> {
 
     public void addLast (T element) {
 
-        Node <T> newest = new Node<>(element , head) ;
+        Node <T> newest = new Node<>(element , null) ;
 
         if (isEmpty()) {
 

@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,6 +26,7 @@ public class Main {
                 if (nameOfLists.isEmpty()) {
                     Print("You don't have any lists yet!");
                     UserInterface();
+                    break;
                 } else {
                     for (int i = 0; i < nameOfLists.size(); i++) {
                         Print(i + ". " + nameOfLists.get(i));
@@ -49,7 +53,11 @@ public class Main {
                                 if (choiceNumber == 1) {
                                     addNewTask(GeneralList.get(desiredIndex), sc);
                                     UserInterface();
-                                } else UserInterface();
+                                    break;
+                                } else {
+                                    UserInterface();
+                                    break;
+                                }
                             } else {
                                 veiwTask(GeneralList.get(desiredIndex), sc);
                             }
@@ -60,6 +68,7 @@ public class Main {
                             if (GeneralList.get(desiredIndex).isEmpty()) {
                                 Print("You don't have any task in this list!");
                                 UserInterface();
+                                break;
                             } else {
                                 Print("Please enter the title of task:");
                                 String title = sc.next();
@@ -84,6 +93,7 @@ public class Main {
                                             }
                                         }
                                         UserInterface();
+                                        break;
                                     } else {
                                         Print("No task was found with this name!!");
                                     }
@@ -102,6 +112,8 @@ public class Main {
                             if (GeneralList.get(desiredIndex).isEmpty()) {
                                 Print("You don't have any task in this list!");
                                 UserInterface();
+                                break;
+
                             } else {
 
                                 Print("Sort by:");
@@ -141,6 +153,7 @@ public class Main {
                             Print("Invalid input!");
                             Print("Please try again:");
                             UserInterface();
+                            break;
                         }
                     }
 
@@ -156,7 +169,10 @@ public class Main {
             break;
             //Exit
             case 3: {
+
                 Print("Good luck => ");
+                write(GeneralList , nameOfLists);
+                System.exit(0);
             }
             break;
             default: {
@@ -164,6 +180,7 @@ public class Main {
                 Print("Please try again:");
                 UserInterface();
             }
+            break;
         }
     }
 
@@ -315,6 +332,60 @@ public class Main {
 
     public static void Print(Object obj) {
         System.out.println(obj);
+    }
+
+    public static void write(ArrayList<ArrayList<Task<String>>> toDo, ArrayList<String> name) {
+
+        try {
+
+            if (!toDo.isEmpty()) {
+
+                File dataM = new File("C:\\Users\\shoss\\Documents\\Idea\\project-1-todo-list-shiftdelete\\Data");
+
+                dataM.mkdir(); // make directory data
+
+                for (int i = 0; i < name.size(); i++) {
+
+                    File group1 = new File("C:\\Users\\shoss\\Documents\\Idea\\project-1-todo-list-shiftdelete\\Data\\" + (i + 1) + " (" + name.get(i) + ")");
+
+                    group1.mkdir(); // make directory
+
+                    for (int j = 0; j < toDo.get(i).size(); j++) {
+
+                        FileWriter group2 = new FileWriter("C:\\Users\\shoss\\Documents\\Idea\\project-1-todo-list-shiftdelete\\Data\\" + (i + 1) + " (" + name.get(i) + ")" + "\\" + "1 (" + toDo.get(i).get(j).getTitle() + ")" + ".txt"); // make Notepad
+
+                        BufferedWriter data = new BufferedWriter(group2);
+
+                        data.write(toDo.get(i).get(j).getTitle() + "\n"); // write the Title
+
+                        if (toDo.get(i).get(j).getStep() != null) {
+
+                            Node<String> test = toDo.get(i).get(j).getStep().getHead();
+
+                            while (test != null) {
+
+                                data.write(test.getData() + " "); // write the Steps
+
+                                test = test.getNext();
+                            }
+                        }
+
+                        data.write("\n" + toDo.get(i).get(j).getPriority() + "\n"); // write the Priority
+
+                        data.write(toDo.get(i).get(j).getDueDate() + "\n"); // write Due Date
+
+                        data.write(toDo.get(i).get(j).getNote() + "\n"); // write the Note
+
+                        data.write(toDo.get(i).get(j).getCreatedDate() + ""); // write the Created Date
+
+                        data.close();
+                    }
+                }
+            }
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+        }
     }
 
 }
