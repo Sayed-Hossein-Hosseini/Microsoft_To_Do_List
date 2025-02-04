@@ -148,3 +148,12 @@ The application saves tasks and lists to the file system in a structured directo
 ## Conclusion
 
 This To-Do List application is a simple yet powerful tool for managing tasks and lists. It provides a user-friendly interface and robust features for task management, making it a useful tool for personal or professional use. The application is designed to be easily extendable, allowing for additional features and improvements in the future.
+
+## License  
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.  
+
+## Authors  
+
+- Sayyed Hossein Hosseini DolatAbadi  
+- Zohreh Soorani
